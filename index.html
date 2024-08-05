@@ -1,0 +1,110 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="./output.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="h-screen flex justify-center items-center bg-yellow-300">
+        <div class="h-48 flex flex-col justify-center   items-center">
+            <div class="flex flex-row justify-center" id="progress">
+                <div class="pr-20">
+                    <div class="relative z-20 flex items-center justify-center" id="circle_1">
+                        <div id="circle_1_outer" class="absolute -z-10 w-9 h-9 bg-green-600 duration-500 rounded-full">
+                        </div>
+                        <div id="circle_1_bar" class="absolute ml-28 w-28 h-1 -z-[17] bg-slate-300">
+                        </div>
+                        <div id="circle_1_light_bar" class="absolute ml-0 w-0 h-1 duration-1000 -z-[15] bg-green-600">
+                        </div>
+                        <div id="circle_1_text" w class="text-sm w-7 h-7 flex items-center 
+                                    justify-center bg-white rounded-full">W</div>
+                    </div>
+                    <div class="text-xs mt-1 font-normal text-center my-0">Start</div>
+                </div>
+                <div class="pr-20">
+                    <div class="relative z-20 flex items-center justify-center" id="circle_2">
+                        <div id="circle_2_outer" class="absolute -z-10 w-9 h-9 bg-slate-300 duration-500 rounded-full">
+                        </div>
+                        <div id="circle_2_bar" class="absolute ml-28 w-28 h-1 -z-[17] bg-slate-300">
+                        </div>
+                        <div id="circle_2_light_bar" class="absolute ml-0 w-0 h-1 duration-1000 -z-[15] bg-green-600">
+                        </div>
+                        <div id="circle_2_text" class="text-sm w-7 h-7 flex items-center 
+                                    justify-center bg-white rounded-full">L</div>
+                    </div>
+                    <div class="text-xs mt-1 font-normal text-center my-0">Middle</div>
+                </div>
+                <div>
+                    <div class="relative z-20 flex items-center justify-center" id="circle_3">
+                        <div id="circle_3_outer" class="absolute -z-10 w-9 h-9 bg-slate-300 duration-500 rounded-full">
+                        </div>
+                        <div id="circle_3_text" class="text-sm w-7 h-7 flex items-center 
+                                    justify-center bg-white rounded-full">L</div>
+                    </div>
+                    <div class="text-xs mt-1 font-normal text-center my-0">Finish</div>
+                </div>
+            </div>
+            <div id="buttons" class=" flex gap-10 mt-3 justify-center w-full">
+                <button class="text-gray-200 w-12 font-normal active:bg-blue-600 hover:bg-blue-400 p-1 bg-blue-500"
+                    type="button" onclick="prev()">Prev</button>
+                <button class="text-gray-200 w-12 font-normal active:bg-blue-600 hover:bg-blue-400 p-1 bg-blue-500"
+                    type="button" onclick="next()">Next</button>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        MAX_LENGTH = 3
+        currentPosition = 1
+        prevPos = 1 //somehow prevent button spamming, it could be a flag
+        function prev() {
+            if (currentPosition != prevPos || currentPosition == 1) {
+                return
+            }
+            prevPos = 0
+            circle = document.getElementById("circle_" + currentPosition + "_outer")
+            circle.classList.remove("bg-green-600")
+            circle.classList.add("bg-slate-300")
+            text = document.getElementById("circle_" + currentPosition + "_text")
+            text.innerHTML = "L"
+            currentPosition -= 1
+            setTimeout(function () {
+                // <!-- light bar -->
+
+                bar = document.getElementById("circle_" + currentPosition + "_light_bar")
+
+                bar.classList.remove("w-28", "ml-28")
+                bar.classList.add("w-0", "ml-0")
+                prevPos = currentPosition
+            }, 500);
+        }
+
+        function next() {
+            if (currentPosition != prevPos || currentPosition == MAX_LENGTH) {
+                return
+            }
+            prevPos = 0
+            // <!-- light bar -->
+
+            bar = document.getElementById("circle_" + currentPosition + "_light_bar")
+            bar.classList.remove("w-0", "ml-0")
+            bar.classList.add("w-28", "ml-28")
+            currentPosition += 1
+            setTimeout(function () {
+                // <!-- light next circle -->
+                circle = document.getElementById("circle_" + currentPosition + "_outer")
+                circle.classList.remove("bg-slate-300")
+                circle.classList.add("bg-green-600")
+                text = document.getElementById("circle_" + currentPosition + "_text")
+                text.innerHTML = "W"
+                prevPos = currentPosition
+            }, 800);
+        }
+    </script>
+</body>
+
+</html>
